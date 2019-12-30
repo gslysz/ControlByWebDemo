@@ -3,10 +3,114 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ControlByWebDemo"
+        xmlns:controlByWebDemo="clr-namespace:ControlByWebDemo"
+        xmlns:converters="clr-namespace:ControlByWebDemo.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="ControlByWeb x410 Demo" Height="750" Width="800" d:DataContext="{d:DesignInstance controlByWebDemo:MainViewModel}">
+    <Window.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <GroupBox Header="Settings:" BorderBrush="DarkGray" BorderThickness="2">
+                <StackPanel Margin="5">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBox">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock VerticalAlignment="Center" Text="IP Address: "></TextBlock>
+                        <TextBox MinWidth="80" Text="{Binding IpAddress}" ></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Port: "></TextBlock>
+                        <TextBox MinWidth="20" Text="{Binding PortNum}"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Message Type" Margin="3">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <RadioButton Content="Json" IsChecked="{Binding IsMessageJsonFormat}"></RadioButton>
+                    <RadioButton Margin="15,0" Content="XML" IsChecked="{Binding IsMessageJsonFormat, Converter={StaticResource InverseBooleanConverter}}"></RadioButton>
+                </StackPanel>
+                
+            </GroupBox>
+        </StackPanel>
+
+        <GroupBox Grid.Row="1" Header="Send:" BorderBrush="DarkGray" BorderThickness="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="400" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="10">
+                <TextBlock Text="Command:"></TextBlock>
+                
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox VerticalScrollBarVisibility="Auto" FontFamily="Consolas" VerticalAlignment="Stretch" Text="{Binding SendCommandString}"></TextBox>
+                        
+                        <StackPanel Grid.Column="1">
+                        <Button MinHeight="20" HorizontalAlignment="Left" Margin="10" Padding="3" Content="Send" Command="{Binding SendCommandToDeviceCommand}"></Button>
+                            <Button Content="Clear" Margin="10,0,10,0" Command="{Binding ClearTextCommand}"></Button>
+                        </StackPanel>
+                    </Grid>
+
+            </StackPanel>
+                <GroupBox Header="Actions:" Grid.Column="1" Margin="5">
+                    <StackPanel Orientation="Vertical">
+                    <Button MinHeight="20" HorizontalAlignment="Left" Margin="5" Padding="3" Content="Get State" Command="{Binding ResetSendTextToGetStateCommand}"></Button>
+                      
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Relays:" Grid.Column="2" Margin="5">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button MinHeight="20" HorizontalAlignment="Left" Margin="5" Padding="3" Content="Relay 1 ON" Command="{Binding SetRelayOnCommand}" CommandParameter="1"></Button>
+                            <Button MinHeight="20" HorizontalAlignment="Left" Margin="5" Padding="3" Content="Relay 1 OFF" Command="{Binding SetRelayOffCommand}" CommandParameter="1"></Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button MinHeight="20" HorizontalAlignment="Left" Margin="5" Padding="3" Content="Relay 2 ON" Command="{Binding SetRelayOnCommand}" CommandParameter="2"></Button>
+                            <Button MinHeight="20" HorizontalAlignment="Left" Margin="5" Padding="3" Content="Relay 2 OFF" Command="{Binding SetRelayOffCommand}" CommandParameter="2"></Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button MinHeight="20" HorizontalAlignment="Left" Margin="5" Padding="3" Content="Relay 3 ON" Command="{Binding SetRelayOnCommand}" CommandParameter="3"></Button>
+                            <Button MinHeight="20" HorizontalAlignment="Left" Margin="5" Padding="3" Content="Relay 3 OFF" Command="{Binding SetRelayOffCommand}" CommandParameter="3"></Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button MinHeight="20" HorizontalAlignment="Left" Margin="5" Padding="3" Content="Relay 4 ON" Command="{Binding SetRelayOnCommand}" CommandParameter="4"></Button>
+                            <Button MinHeight="20" HorizontalAlignment="Left" Margin="5" Padding="3" Content="Relay 4 OFF" Command="{Binding SetRelayOffCommand}" CommandParameter="4"></Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                </GroupBox>
+
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Received:" BorderBrush="DarkGray" BorderThickness="2" Grid.Row="2">
+            <StackPanel Margin="10">
+                <TextBox VerticalScrollBarVisibility="Auto" FontFamily="Consolas" IsReadOnly="True" VerticalAlignment="Stretch" Text="{Binding ReceivedDataString}"></TextBox>
+            </StackPanel>
+        </GroupBox>
+
     </Grid>
 </Window>

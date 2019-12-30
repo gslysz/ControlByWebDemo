@@ -23,6 +23,8 @@ namespace ControlByWebDemo
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = new MainViewModel();
         }
     }
 }
